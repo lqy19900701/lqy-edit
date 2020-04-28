@@ -4,7 +4,7 @@ import VueRouter from 'vue-router';
 import Home from '../components/home/home.vue';
 import ViewResume from '../components/home/viewResume.vue';
 import EditResume from '../components/home/editResume.vue';
-
+import Articles from '../components/home/articles.vue';
 Vue.use(VueRouter);
 // Vue.use(VueResource);
 
@@ -28,5 +28,6 @@ export default new VueRouter({
     {path:'/home',name:'home',component:Home},
     {path:'/viewResume',name:'viewResume',component:ViewResume},
     {path:'/editResume',name:'editResume',component:EditResume},
+    {path:'/articles',name:'articles',component:Articles},
   ]
 })

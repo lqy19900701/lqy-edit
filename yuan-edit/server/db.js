@@ -50,7 +50,7 @@ let allArticleFront=function(){
     from
         article
     order by
-        id desc
+        id asc
     `;
     return sql;
 }
@@ -71,6 +71,7 @@ let allArticleFront=function(){
 
     //更新文章
     let updateArticle=function(passage){
+        // set global innodb_lock_wait_timeout=60
         let sql=`
         update
             article

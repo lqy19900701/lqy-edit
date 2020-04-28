@@ -6,10 +6,12 @@
                 <input id="t1" v-model="title" class="text" type="text" />
              </div>
         </div>
-        <vue-editor class="editor" id="ue2" v-model="content"></vue-editor>
+        <vue-editor class="editor" v-model="content"></vue-editor>
         <button class="btn" @click="saveText()">
             提交
         </button>
+        <!-- <input type="file" id="files" ref="refFile" style="display: none" v-on:change="fileLoad"> -->
+
         <router-link class="btn" to='/viewResume'><a href="/viewResume">查看目录</a></router-link>    
     </div>   
 </template>
@@ -24,42 +26,75 @@
 
         data() {
             return {
-                passage:[],
                 title: "",
                 content:'',
+                namePath:"",
             }
         },
 
         methods: {
+            // clickLoad()
+            // {
+            //      // this.$refs.refFile.dispatchEvent(new MouseEvent('click'))
+
+            //     //   window.open("./static");
+            //     //   frame.document.execCommand('SaveAs');
+            //     let content=new Blob([JSON.stringify(this.passage)])
+            //     document.execCommand('SaveAs');
+            //     this.saveText();
+            // },
+            // fileLoad(){
+
+            //     //const selectedFile=document.getElementById('files').files[0];
+            //     // const selectedFile = this.$refs.refFile.files[0];
+
+            //     // var name=selectedFile.name;
+            //     // var reader=new FileReader();
+            //     // reader.readAsText(selectedFile);
+            //     // reader.onload = function() {
+            //     //     console.log(this.result);
+            //     // }
+            //     // this.namePath=this.getURL(selectedFile);
+            //     // console.log(this.namePath);
+            //     //window.open();
+            //     //frame.document.execCommand('SaveAs');
+            //     this.saveText();
+            // },
+            // getObjectURL (file) {
+            //     let url = null ;
+            //     if (window.createObjectURL!=undefined) { // basic
+            //     url = window.createObjectURL(file) ;
+            //     }else if (window.webkitURL!=undefined) { // webkit or chrome
+            //     url = window.webkitURL.createObjectURL(file) ;
+            //     }else if (window.URL!=undefined) { // mozilla(firefox)
+            //     url = window.URL.createObjectURL(file) ;
+            //     }
+            //     return url ;
+            // },
+
             saveText() {              
-                // var strHTML=document.getElementById("name").value;
-                // // var strHTML_name=document.getElementById("textname").value;
-
-                // var winSave=window.open();
-                // winSave.document.open("text","gb2312");  
-                // winSave.document.write(data);  
-                // winSave.document.execCommand("SaveAs",true,"strHTML_name.txt");
-                // winSave.document.execCommand("SaveAs");
-                // window.location.href="#"  ;
-                // winSave.close();  
-                // 接口 this.content 传入
-                // this.passage.namePath = "E://Project//vueInit-master//newfile//news.txt";
-                // this.passage.title="我很好";
-                // this.passage.content="我很好——奋斗";this.passage
-                // api.saveAsBack(data);
-               // this.$refs.refFile.dispatchEvent(new MouseEvent('click'))
-
-                var namePath="E://Project//YuanEditor//yuan-edit//static";
+                const article = `标题：${this.title}——内容：${this.content}`;
+                let content=new Blob([JSON.stringify(article)]);
+                let urlObject = window.URL || window.webkitURL || window;
+                let url = urlObject.createObjectURL(content);
+                //生成<a></a>DOM元素
+	  	        let el = document.createElement('a')
+	  	        //链接赋值
+	  	        el.href = url
+                 // el.download ="todo文件导出.txt"
+                el.download =`${this.title}.txt`;
+	  	        //必须点击否则不会下载
+                el.click();
+                this.namePath = url+`/${this.title}.txt`  		
+	  	        //移除链接释放资源		
+	            urlObject.revokeObjectURL(url);
                 const data={
                     title:this.title,
                     content:this.content,
-                    namePath:namePath,
+                    namePath:this.namePath,
                     id: ''
                 }
                 console.log(data);
-                
-                // console.log(data);
-                
                 api.saveArticleBack(data).then(res=>{
                     switch(res.code){
                         case '200':
@@ -75,6 +110,7 @@
                     })
 
             },
+
             
       //   createDir (path) {
       //      if (!fs.existsSync(path)) {
@@ -95,14 +131,16 @@
             position: relative;
             margin: 0 auto;
             max-width: 80vw;
+            height: auto;
         }
 
         .ql-container {
-            max-height: 500px;
+            max-height: auto;
         }
         
         .btn {
             margin-top: 30px;
+            text-align:center;
             margin-left: 200px;
             height: 30px;
             width: 100px;

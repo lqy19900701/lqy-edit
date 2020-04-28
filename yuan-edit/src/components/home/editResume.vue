@@ -11,6 +11,9 @@
         <button class="btn" @click="saveText()">
             提交
         </button>
+        <button class="btn" @click="goback()">
+            返回
+        </button>
     </div>   
 </template>
 <script type="text/babel">
@@ -96,6 +99,9 @@
                         console.log(err);
                     })
             },
+            goback(){
+                this.$router.push({name:'viewResume'})
+            },
         }
     }
 </script>
@@ -109,7 +115,7 @@
         }
 
         .ql-container {
-            max-height: 500px;
+            max-height: auto;
         }
         
         .btn {

@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var db=require('../db');
+// var EventProxy=require('eventproxy');
+// var proxy=new EventProxy();
 
 // //连接数据库
 // var db=mysql.createConnection(models.mysql);
@@ -27,6 +29,8 @@ router.post('/saveArticle',(req,res)=>{
     // 如果id存在，那么执行更新操作
     if(id){
         console.log('id存在，执行更新操作！')
+        // var status="write";
+
         let sql=db.updateArticle(passage);
         db.Query(sql).then(data=>{
             res.send({"code":"200","data":"更新成功！"});
@@ -37,13 +41,13 @@ router.post('/saveArticle',(req,res)=>{
     }
     // 如果req.body的id不存在，说明是一篇新的文章,执行插入操作;
     else{
-        var winSave=window.open();
-        winSave.document.open("text","gb2312");  
-        winSave.document.write(passage);  
-        winSave.document.execCommand("SaveAs",true,"strHTML_name.txt");
-        winSave.document.execCommand("SaveAs");
-        window.location.href="#"  ;
-        winSave.close();  
+        // var winSave=window.open();
+        // winSave.document.open("text","gb2312");  
+        // winSave.document.write(passage);  
+        // winSave.document.execCommand("SaveAs",true,"strHTML_name.txt");
+        // winSave.document.execCommand("SaveAs");
+        // window.location.href="#"  ;
+        // winSave.close();  
 
         let sql=db.createArticle(passage);
         db.Query(sql).then(data=>{
